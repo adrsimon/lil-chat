@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js" integrity="sha512-YeeA/Qxn5hYdkukScTCNNOhTrv1C2RubAGButJ1rmgQwZf/HdRaCGl+JAVkqsqaNRaYNHdheiuKKuPf9mDcqKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" encoding="utf-8">
+        var socket;
+        $(document).ready(function(){
+            socket = io.connect();
+            socket.on("connect", function() {
+                socket.emit("join", {});
+            });
+            socket.on("status", function(data) {
+                $("#chat").val($("#chat").val() + '[' + data.msg + ']\n');
+            socket.on("message", function(data) {
+                $("#chat").val($("#chat").val() + data.msg + '\n');
+            });
+        });
+
+        $("#send").click(function() {
+            socket.emit("text", {msg: $("#text").val()});
+            $("#text").val("");
+        });
+
+        $("#leave").click(function(e){
+            socket.emit("left", {}, () => {
+                socket.disconnect();
+                window.location.href = "{{url_for('index')}}";
+            });
+        });
+        });
+    </script>
+</head>
+<body>
+    <div class="chat text-center">
+        <h2>Bienvenue {{session['username']}}</h2><br>
+        <p>Utilisateurs connectés : {{users}}</p>
+        <textarea id="chat" cols="80" rows="15" placeholder="Aucun message pour le moment..." disabled></textarea><br>
+        <input type="text" id="text" class="lg-80" placeholder="Ecrit ton message ici." />
+        <button type="button" id="send" class="btn btn-success">Envoyer</button><br>
+        <button type="button" id="leave" class="btn btn-danger")>Deconnexion</button>
+    </div>
+</body>
+</html>

@@ -1,6 +1,6 @@
-# synapsys-messenger
+# lil-chat
 
-Mini service de messagerie instatanée realisé pour un entretien technique.
+Mini service de messagerie instatanée realisé en Flask pour un entretien technique.
 
 ### Installation
 

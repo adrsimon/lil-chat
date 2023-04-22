@@ -1,5 +1,7 @@
 # synapsys-messenger
 
+Mini service de messagerie instatanée realisé pour un entretien technique.
+
 ### Installation
 
 Installez les dépendences grâce à 
